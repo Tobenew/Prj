@@ -3,21 +3,21 @@ require_once './config.php';
 
 // 最新发布功能
   $connect = mysqli_connect(DB_HOST,DB_USER,DB_PWD,DB_NAME);
-  $sql = "SELECT p.title,p.created,p.content,p.views,p.likes,p.feature,c.'name',u.nickname
+  $sql = "SELECT p.title,p.created,p.content,p.views,p.likes,p.feature,c.name,d.nickname, 
+          (SELECT count(id) FROM comments WHERE post_id = p.id) as commentsCount
           FROM posts p
           LEFT JOIN categories c on c.id = p.category_id
           LEFT JOIN users d on d.id = p.user_id
           WHERE p.category_id != 1
           order BY p.created desc
-          LIMIT 5
-          ";
+          LIMIT 5";
   $postResult = mysqli_query($connect,$sql);
+  // var_dump($postResult);
   $postArr = [];
   while ($row = mysqli_fetch_assoc($postResult)) {
     $postArr[] = $row;
   }
-  print_r($postArr);
-
+  // print_r($postArr);
 ?>
 
 <!DOCTYPE html>
@@ -176,8 +176,34 @@ require_once './config.php';
       <div class="panel new">
       <!-- 动态添加最新发布文章  2017.03.02 -->
         <h3>最新发布</h3>
+        <?php foreach ($postArr as $value):?>
+              <div class="entry">
+                <div class="head">
+                  <span class="sort"><?php echo $value['name']?></span>
+                  <a href="javascript:;"><?php echo $value['title']?></a>
+                </div>
+                <div class="main">
+                  <p class="info"><?php echo $value['nickname']?> 发表于 <?php echo $value['created']?></p>
+                  <p class="brief"><?php echo $value['content']?></p>
+                  <p class="extra">
+                    <span class="reading">阅读(<?php echo $value['views']?>)</span>
+                    <span class="comment">评论(<?php echo $value['commentsCount']?>)</span>
+                    <a href="javascript:;" class="like">
+                      <i class="fa fa-thumbs-up"></i>
+                      <span>赞(<?php echo $value['likes']?>)</span>
+                    </a>
+                    <a href="javascript:;" class="tags">
+                      分类：<span>星球大战</span>
+                    </a>
+                  </p>   
+                  <a href="javascript:;" class="thumb">
+                    <img src="" alt="">
+                  </a>
+                </div>
+              </div>   
+        <?php endforeach?>
           
-        <div class="entry">
+        <!-- <div class="entry">
           <div class="head">
             <span class="sort">会生活</span>
             <a href="javascript:;">星球大战：原力觉醒视频演示 电影票68</a>
@@ -248,7 +274,7 @@ require_once './config.php';
               <img src="static/uploads/hots_2.jpg" alt="">
             </a>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="footer">
