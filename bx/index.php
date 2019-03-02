@@ -1,5 +1,23 @@
 <?php
-require_once './config.php'
+require_once './config.php';
+
+// 最新发布功能
+  $connect = mysqli_connect(DB_HOST,DB_USER,DB_PWD,DB_NAME);
+  $sql = "SELECT p.title,p.created,p.content,p.views,p.likes,p.feature,c.'name',u.nickname
+          FROM posts p
+          LEFT JOIN categories c on c.id = p.category_id
+          LEFT JOIN users d on d.id = p.user_id
+          WHERE p.category_id != 1
+          order BY p.created desc
+          LIMIT 5
+          ";
+  $postResult = mysqli_query($connect,$sql);
+  $postArr = [];
+  while ($row = mysqli_fetch_assoc($postResult)) {
+    $postArr[] = $row;
+  }
+  print_r($postArr);
+
 ?>
 
 <!DOCTYPE html>
@@ -156,7 +174,9 @@ require_once './config.php'
         </ul>
       </div>
       <div class="panel new">
+      <!-- 动态添加最新发布文章  2017.03.02 -->
         <h3>最新发布</h3>
+          
         <div class="entry">
           <div class="head">
             <span class="sort">会生活</span>
@@ -180,7 +200,7 @@ require_once './config.php'
               <img src="static/uploads/hots_2.jpg" alt="">
             </a>
           </div>
-        </div>
+        </div>   
         <div class="entry">
           <div class="head">
             <span class="sort">会生活</span>
