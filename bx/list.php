@@ -1,4 +1,20 @@
-<!DOCTYPE html>
+<?php
+  require_once 'config.php';
+  require_once 'functions.php';
+  $categoryId = $_GET["categoryId"];
+
+  $connect = connect();
+  $sql = "SELECT p.title,p.created,p.content,p.views,p.likes,p.feature,c.name,d.nickname, 
+          (SELECT count(id) FROM comments WHERE post_id = p.id) as commentsCount
+          FROM posts p
+          LEFT JOIN categories c on c.id = p.category_id
+          LEFT JOIN users d on d.id = p.user_id
+          WHERE p.category_id = {$categoryId}
+          LIMIT 10";
+  $listArr = query($connect,$sql);
+?>
+
+<!DOCTYPE html>  
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -21,76 +37,36 @@
     <?php include_once 'public/_aside.php'?>
     <div class="content">
       <div class="panel new">
-        <h3>会生活</h3>
+        <h3><?php echo $listArr[0]['name']?></h3>
+        <?php foreach ($listArr as $value):?>
         <div class="entry">
-          <div class="head">
-            <a href="javascript:;">星球大战：原力觉醒视频演示 电影票68</a>
-          </div>
-          <div class="main">
-            <p class="info">admin 发表于 2015-06-29</p>
-            <p class="brief">星球大战:原力觉醒：《星球大战:原力觉醒》中国首映盛典红毯，星球大战:原力觉醒：《星球大战:原力觉醒》中国首映盛典红毯，星球大战:原力觉醒：《星球大战:原力觉醒》中国首映盛典红毯星球大战:原力觉醒：《星球大战:原力觉醒》中国首映盛典红毯，星球大战:原力觉醒：《星球大战:原力觉醒》中国首映盛典红毯，星球大战:原力觉醒：《星球大战:原力觉醒》中国首映盛典红毯</p>
-            <p class="extra">
-              <span class="reading">阅读(3406)</span>
-              <span class="comment">评论(0)</span>
-              <a href="javascript:;" class="like">
-                <i class="fa fa-thumbs-up"></i>
-                <span>赞(167)</span>
-              </a>
-              <a href="javascript:;" class="tags">
-                分类：<span>星球大战</span>
-              </a>
-            </p>
-            <a href="javascript:;" class="thumb">
-              <img src="static/uploads/hots_2.jpg" alt="">
-            </a>
-          </div>
-        </div>
-        <div class="entry">
-          <div class="head">
-            <a href="javascript:;">星球大战：原力觉醒视频演示 电影票68</a>
-          </div>
-          <div class="main">
-            <p class="info">admin 发表于 2015-06-29</p>
-            <p class="brief">星球大战:原力觉醒：《星球大战:原力觉醒》中国首映盛典红毯，星球大战:原力觉醒：《星球大战:原力觉醒》中国首映盛典红毯，星球大战:原力觉醒：《星球大战:原力觉醒》中国首映盛典红毯星球大战:原力觉醒：《星球大战:原力觉醒》中国首映盛典红毯，星球大战:原力觉醒：《星球大战:原力觉醒》中国首映盛典红毯，星球大战:原力觉醒：《星球大战:原力觉醒》中国首映盛典红毯</p>
-            <p class="extra">
-              <span class="reading">阅读(3406)</span>
-              <span class="comment">评论(0)</span>
-              <a href="javascript:;" class="like">
-                <i class="fa fa-thumbs-up"></i>
-                <span>赞(167)</span>
-              </a>
-              <a href="javascript:;" class="tags">
-                分类：<span>星球大战</span>
-              </a>
-            </p>
-            <a href="javascript:;" class="thumb">
-              <img src="static/uploads/hots_2.jpg" alt="">
-            </a>
-          </div>
-        </div>
-        <div class="entry">
-          <div class="head">
-            <a href="javascript:;">星球大战：原力觉醒视频演示 电影票68</a>
-          </div>
-          <div class="main">
-            <p class="info">admin 发表于 2015-06-29</p>
-            <p class="brief">星球大战:原力觉醒：《星球大战:原力觉醒》中国首映盛典红毯，星球大战:原力觉醒：《星球大战:原力觉醒》中国首映盛典红毯，星球大战:原力觉醒：《星球大战:原力觉醒》中国首映盛典红毯星球大战:原力觉醒：《星球大战:原力觉醒》中国首映盛典红毯，星球大战:原力觉醒：《星球大战:原力觉醒》中国首映盛典红毯，星球大战:原力觉醒：《星球大战:原力觉醒》中国首映盛典红毯</p>
-            <p class="extra">
-              <span class="reading">阅读(3406)</span>
-              <span class="comment">评论(0)</span>
-              <a href="javascript:;" class="like">
-                <i class="fa fa-thumbs-up"></i>
-                <span>赞(167)</span>
-              </a>
-              <a href="javascript:;" class="tags">
-                分类：<span>星球大战</span>
-              </a>
-            </p>
-            <a href="javascript:;" class="thumb">
-              <img src="static/uploads/hots_2.jpg" alt="">
-            </a>
-          </div>
-        </div>
+                <div class="head">
+                  <span class="sort"><?php echo $value['name']?></span>
+                  <a href="javascript:;"><?php echo $value['title']?></a>
+                </div>
+                <div class="main">
+                  <p class="info"><?php echo $value['nickname']?> 发表于 <?php echo $value['created']?></p>
+                  <p class="brief"><?php echo $value['content']?></p>
+                  <p class="extra">
+                    <span class="reading">阅读(<?php echo $value['views']?>)</span>
+                    <span class="comment">评论(<?php echo $value['commentsCount']?>)</span>
+                    <a href="javascript:;" class="like">
+                      <i class="fa fa-thumbs-up"></i>
+                      <span>赞(<?php echo $value['likes']?>)</span>
+                    </a>
+                    <a href="javascript:;" class="tags">
+                      分类：<span>星球大战</span>
+                    </a>
+                  </p>   
+                  <a href="javascript:;" class="thumb">
+                    <img src="<?php echo $value['feature']?>" alt="">
+                  </a>
+                </div>
+              </div> 
+        <?php endforeach ?> 
+        <!-- 加载更多的按钮功能 -->
+        <div class="loadMore">
+          <span class="btn">加载更多</span>
       </div>
     </div>
     <div class="footer">
@@ -98,4 +74,68 @@
     </div>
   </div>
 </body>
+<script src="static/assets/vendors/jquery/jquery-1.12.2.js"></script>
+<script>
+  $(function () {
+      var currentPage = 1;
+      //给加载更多的按钮 注册点击事件
+      $(".loadMore .btn").on("click",function () {  
+          //请求后台,加载更多与当前分类相关的接口
+          var categoryId = location.search.split("=")[1];
+          currentPage++; 
+          console.log(currentPage);
+          
+          $.ajax({
+            type: "POST",
+            url: "api/_getMorePost.php",
+            data: {
+              categoryId:categoryId,
+              currentPage:currentPage,
+              pageSize:10
+            },
+            success: function (response) {
+                console.log("scc");
+                
+                if (response.code ==1) {
+                  var data = response.data;
+                  data.forEach(value => {
+                      var str='<div class="entry">\
+                                  <div class="head">\
+                                    <span class="sort">'+value["name"]+'</span>\
+                                    <a href="javascript:;">'+value["title"]+'</a>\
+                                  </div>\
+                                  <div class="main">\
+                                    <p class="info">'+value["nickname"]+' 发表于 '+value["created"]+'</p>\
+                                    <p class="brief">'+value["content"]+'</p>\
+                                    <p class="extra">\
+                                      <span class="reading">阅读('+value["views"]+')</span>\
+                                      <span class="comment">评论('+value["commentCounts"]+')</span>\
+                                      <a href="javascript:;" class="like">\
+                                        <i class="fa fa-thumbs-up"></i>\
+                                        <span>赞('+value["likes"]+')</span>\
+                                      </a>\
+                                      <a href="javascript:;" class="tags">\
+                                        分类：<span>星球大战</span>\
+                                      </a>\
+                                    </p>   \
+                                    <a href="javascript:;" class="thumb">\
+                                      <img src="" alt="">\
+                                    </a>\
+                                  </div>\
+                                </div> ';
+                                var entry = $(str);
+                                console.log(entry);
+                                entry.insertBefore(".loadMore .btn");
+                  });
+                  //生成完成结构完毕之后,判断是否在没有文章了
+                  var maxPage = Math.ceil(result.pageCount / 10);
+                  if(currentPage == maxPage){
+                    $(".loadMore .btn").hide();
+                  }
+                }
+            }
+          });
+      });
+  });
+</script>
 </html>

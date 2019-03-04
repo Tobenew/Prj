@@ -1362,3 +1362,15 @@ img {
     display: none;
   }
 }
+
+.loadMore {
+  text-align: center;
+  padding: 50px 0px;
+}
+
+.loadMore .btn {
+  border: 1px solid #CCC;
+  border-radius: 7px;
+  padding: 10px 20px;
+  cursor: pointer;
+}

@@ -10,13 +10,12 @@
   //准备SQL语句
   $sql = "SELECT * FROM categories WHERE id!=1" ;
   //执行查询
-  $result = mysqli_query($connect,$sql);
+  $result = mysqli_query($connect,$sql);    
   //把数据集合转换成二维数组
   $arr = [];
   while ($row = mysqli_fetch_assoc($result)) {
     $arr[] = $row;
   }
-  // print_r($arr);
 ?>
 
 <div class="header">
@@ -28,12 +27,12 @@
         <li><a href="javascript:;"><i class="fa fa-gift"></i>美奇迹</a></li> -->
         <!-- 遍历二维数组,生成结构 -->
         <?php foreach ($arr as  $value): ?>
-        <li><a href="javascript:;"><i class="fa <?php echo $value['classname'] ?>"></i><?php echo $value['name']?></a></li>
+        <li><a href="list.php?categoryId=<?php echo $value['id']?>"><i class="fa <?php echo $value['classname'] ?>"></i><?php echo $value['name']?></a></li>
         <?php endforeach?>
 
       </ul>
       <div class="search">
-        <form>
+        <form> 
           <input type="text" class="keys" placeholder="输入关键字">
           <input type="submit" class="btn" value="搜索">
         </form>
