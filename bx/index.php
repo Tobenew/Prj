@@ -3,7 +3,7 @@ require_once './config.php';
 
 // 最新发布功能
   $connect = mysqli_connect(DB_HOST,DB_USER,DB_PWD,DB_NAME);
-  $sql = "SELECT p.title,p.created,p.content,p.views,p.likes,p.feature,c.name,d.nickname, 
+  $sql = "SELECT p.id,p.title,p.created,p.content,p.views,p.likes,p.feature,c.name,d.nickname, 
           (SELECT count(id) FROM comments WHERE post_id = p.id) as commentsCount
           FROM posts p
           LEFT JOIN categories c on c.id = p.category_id
@@ -180,7 +180,7 @@ require_once './config.php';
               <div class="entry">
                 <div class="head">
                   <span class="sort"><?php echo $value['name']?></span>
-                  <a href="javascript:;"><?php echo $value['title']?></a>
+                  <a href="<?php echo $value['id']?>"><?php echo $value['title']?></a>
                 </div>
                 <div class="main">
                   <p class="info"><?php echo $value['nickname']?> 发表于 <?php echo $value['created']?></p>
@@ -197,7 +197,7 @@ require_once './config.php';
                     </a>
                   </p>   
                   <a href="javascript:;" class="thumb">
-                    <img src="" alt="">
+                    <img src="<?php echo $value['feature']?>" alt="">
                   </a>
                 </div>
               </div>   
@@ -217,7 +217,6 @@ require_once './config.php';
       auto: 3000,
       transitionEnd: function (index) {
         // index++;
-
         $('.cursor span').eq(index).addClass('active').siblings('.active').removeClass('active');
       }
     });

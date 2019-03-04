@@ -4,7 +4,7 @@
   $categoryId = $_GET["categoryId"];
 
   $connect = connect();
-  $sql = "SELECT p.title,p.created,p.content,p.views,p.likes,p.feature,c.name,d.nickname, 
+  $sql = "SELECT p.id,p.title,p.created,p.content,p.views,p.likes,p.feature,c.name,d.nickname, 
           (SELECT count(id) FROM comments WHERE post_id = p.id) as commentsCount
           FROM posts p
           LEFT JOIN categories c on c.id = p.category_id
@@ -12,6 +12,11 @@
           WHERE p.category_id = {$categoryId}
           LIMIT 10";
   $listArr = query($connect,$sql);
+	echo "<pre>";
+	print_r($listArr);
+	echo "</pre>";
+
+	
 ?>
 
 <!DOCTYPE html>  
@@ -42,7 +47,7 @@
         <div class="entry">
                 <div class="head">
                   <span class="sort"><?php echo $value['name']?></span>
-                  <a href="javascript:;"><?php echo $value['title']?></a>
+                  <a href="detail.php?postId=<?php echo $value['id']?>"><?php echo $value['title']?></a>
                 </div>
                 <div class="main">
                   <p class="info"><?php echo $value['nickname']?> 发表于 <?php echo $value['created']?></p>
@@ -74,7 +79,7 @@
     </div>
   </div>
 </body>
-<script src="static/assets/vendors/jquery/jquery-1.12.2.js"></script>
+<script src="static/assets/vendors/jquery/jquery.js"></script>
 <script>
   $(function () {
       var currentPage = 1;
@@ -83,8 +88,6 @@
           //请求后台,加载更多与当前分类相关的接口
           var categoryId = location.search.split("=")[1];
           currentPage++; 
-          console.log(currentPage);
-          
           $.ajax({
             type: "POST",
             url: "api/_getMorePost.php",
@@ -94,41 +97,39 @@
               pageSize:10
             },
             success: function (response) {
-                console.log("scc");
-                
                 if (response.code ==1) {
                   var data = response.data;
                   data.forEach(value => {
-                      var str='<div class="entry">\
-                                  <div class="head">\
-                                    <span class="sort">'+value["name"]+'</span>\
-                                    <a href="javascript:;">'+value["title"]+'</a>\
-                                  </div>\
-                                  <div class="main">\
-                                    <p class="info">'+value["nickname"]+' 发表于 '+value["created"]+'</p>\
-                                    <p class="brief">'+value["content"]+'</p>\
-                                    <p class="extra">\
-                                      <span class="reading">阅读('+value["views"]+')</span>\
-                                      <span class="comment">评论('+value["commentCounts"]+')</span>\
-                                      <a href="javascript:;" class="like">\
-                                        <i class="fa fa-thumbs-up"></i>\
-                                        <span>赞('+value["likes"]+')</span>\
-                                      </a>\
-                                      <a href="javascript:;" class="tags">\
-                                        分类：<span>星球大战</span>\
-                                      </a>\
-                                    </p>   \
-                                    <a href="javascript:;" class="thumb">\
-                                      <img src="" alt="">\
-                                    </a>\
-                                  </div>\
-                                </div> ';
-                                var entry = $(str);
-                                console.log(entry);
-                                entry.insertBefore(".loadMore .btn");
+                  var str='<div class="entry">\
+															<div class="head">\
+																 <span class="sort">'+value["name"]+'</span>\
+																 <a href="detail.php?postId='+value["id"]+'">'+value["title"]+'</a>\
+															</div>\
+															<div class="main">\
+																<p class="info">'+value["nickname"]+' 发表于 '+value["created"]+'</p>\
+																<p class="brief">'+value["content"]+'</p>\
+																<p class="extra">\
+																<span class="reading">阅读('+value["views"]+')</span>\
+																<span class="comment">评论('+value["commentCounts"]+')</span>\
+																<a href="javascript:;" class="like">\
+																<i class="fa fa-thumbs-up"></i>\
+																<span>赞('+value["likes"]+')</span>\
+																</a>\
+																<a href="javascript:;" class="tags">\
+																分类：<span>星球大战</span>\
+																</a>\
+																</p>\
+																<a href="javascript:;" class="thumb">\
+																<img src="'+value["feature"]+'" alt="">\
+																</a>\
+															 </div>\
+                        </div> ';
+                        var entry = $(str);
+                        console.log(entry);
+                        entry.insertBefore(".loadMore .btn");
                   });
                   //生成完成结构完毕之后,判断是否在没有文章了
-                  var maxPage = Math.ceil(result.pageCount / 10);
+                  var maxPage = Math.ceil(response.pageCount / 10);
                   if(currentPage == maxPage){
                     $(".loadMore .btn").hide();
                   }

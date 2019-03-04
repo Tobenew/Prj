@@ -1,3 +1,19 @@
+<?php
+		require_once "./config.php";
+    require_once "./functions.php";
+		$postId = $_GET["postId"];
+		
+		$connect = connect();
+		$sql = "SELECT *
+		        FROM posts p
+		        WHERE p.id = {$postId}";
+		$detailArr = query($connect,$sql);
+		echo "<pre>";
+		print_r($detailArr);
+		echo "</pre>";
+
+?>
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -29,8 +45,9 @@
           </dl>
         </div>
         <h2 class="title">
-          <a href="javascript:;">又现酒窝夹笔盖新技能 城里人是不让人活了！</a>
+          <a href="javascript:;"><?php echo $detailArr[0]['title']?></a>
         </h2>
+				<p><?php echo $detailArr[0]['content']?></p>
         <div class="meta">
           <span>DUX主题小秘 发布于 2015-06-29</span>
           <span>分类: <a href="javascript:;">奇趣事</a></span>

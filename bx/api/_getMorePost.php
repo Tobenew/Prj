@@ -12,7 +12,7 @@
     
     
 // 3.
-    $sql = "SELECT p.title,p.created,p.content,p.views,p.likes,p.feature,c.name,d.nickname, 
+    $sql = "SELECT p.id,p.title,p.created,p.content,p.views,p.likes,p.feature,c.name,d.nickname, 
             (SELECT count(id) FROM comments WHERE post_id = p.id) as commentsCount
             FROM posts p
             LEFT JOIN categories c on c.id = p.category_id
