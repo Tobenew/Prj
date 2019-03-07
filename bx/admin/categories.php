@@ -1,3 +1,9 @@
+<?php
+  include_once './common/checkLogin.php'
+
+?>  
+
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -25,9 +31,9 @@
         <h1>分类目录</h1>
       </div>
       <!-- 有错误信息时展示 -->
-      <!-- <div class="alert alert-danger">
-        <strong>错误！</strong>发生XXX错误
-      </div> -->
+      <div class="alert alert-danger" style="display:none">
+        <strong>错误！</strong><span id="errMsg"></span>
+      </div>
       <div class="row">
         <div class="col-md-4">
           <form>
@@ -39,10 +45,14 @@
             <div class="form-group">
               <label for="slug">别名</label>
               <input id="slug" class="form-control" name="slug" type="text" placeholder="slug">
-              <p class="help-block">https://zce.me/category/<strong>slug</strong></p>
             </div>
             <div class="form-group">
-              <button class="btn btn-primary" type="submit">添加</button>
+              <label for="className">类名</label>
+              <input id="className" class="form-control" name="className" type="text" placeholder="类名">
+            </div>
+            <div class="form-group">
+            <input type="button" id="btn-add" value="添加" class="btn btn-primary">
+              <!-- <button class="btn btn-primary" type="submit">添加</button> -->
             </div>
           </form>
         </div>
@@ -136,5 +146,61 @@
   <script src="../static/assets/vendors/jquery/jquery.js"></script>
   <script src="../static/assets/vendors/bootstrap/js/bootstrap.js"></script>
   <script>NProgress.done()</script>
+<script>
+$(function () {
+  //添加分类
+  $("#btn-add").click(function () {  
+    var name = $('#name').val();
+    var slug = $('#slug').val();
+    var className = $('#className').val();
+    console.log(name);
+    console.log(slug);
+    console.log(className);
+    // 点击按键分类的ajax请求
+    $.ajax({
+      type: "POST",
+      url: "../api/addCategory.php",
+      data: {
+        "name":name,
+        "slug":slug,
+        "className":className
+      },
+      dataType: "json",
+      beforeSend:function () {
+        if (name.trim()==""||slug.trim()==""||className.trim()=="") {
+          $(".alert").show();
+          $("#errMsg").html("请填写完整信息");
+          return false;
+        }},
+      success: function (response) {
+        if (response.code == 0) {
+          $(".alert").show();
+          $("#errMsg").html(response.msg);
+        }else{
+          var addHtml = template("addCate",{
+                                "name":name,
+                                "slug":slug,
+                                "className":className
+                              });
+              $(addHtml).appendTo("tbody");
+              $(".alert").hide();
+              $("#name").val();
+              $("#slug").val();
+              $("#className").val();
+        }
+      }
+    });
+  });
+  //更新按钮的事件绑定
+  $("tbody").on("click",".edit",function () {
+    // 按钮的显示与隐藏
+    $("btn-edit").show();
+    $("btn-cancel").show();  
+    $("btn-add").hide();
+  
+  })
+});
+
+</script>
 </body>
 </html>

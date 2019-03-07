@@ -12,9 +12,9 @@
           WHERE p.category_id = {$categoryId}
           LIMIT 10";
   $listArr = query($connect,$sql);
-	echo "<pre>";
-	print_r($listArr);
-	echo "</pre>";
+	// echo "<pre>";
+	// print_r($listArr);
+	// echo "</pre>";
 
 	
 ?>
@@ -125,7 +125,7 @@
 															 </div>\
                         </div> ';
                         var entry = $(str);
-                        console.log(entry);
+                        // console.log(entry);
                         entry.insertBefore(".loadMore .btn");
                   });
                   //生成完成结构完毕之后,判断是否在没有文章了

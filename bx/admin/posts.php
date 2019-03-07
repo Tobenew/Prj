@@ -1,3 +1,7 @@
+<?php
+  include_once './common/checkLogin.php'
+
+?>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>

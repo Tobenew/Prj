@@ -2,15 +2,14 @@
 		require_once "./config.php";
     require_once "./functions.php";
 		$postId = $_GET["postId"];
-		
 		$connect = connect();
 		$sql = "SELECT *
 		        FROM posts p
 		        WHERE p.id = {$postId}";
 		$detailArr = query($connect,$sql);
-		echo "<pre>";
-		print_r($detailArr);
-		echo "</pre>";
+		// echo "<pre>";
+		// print_r($detailArr);
+		// echo "</pre>";
 
 ?>
 

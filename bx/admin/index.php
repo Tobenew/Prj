@@ -1,3 +1,9 @@
+<?php
+  include_once './common/checkLogin.php'
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -86,5 +92,9 @@
   <script src="../static/assets/vendors/jquery/jquery.js"></script>
   <script src="../static/assets/vendors/bootstrap/js/bootstrap.js"></script>
   <script>NProgress.done()</script>
+	<script>
+        $(function(){
+        });
+	</script>
 </body>
 </html>

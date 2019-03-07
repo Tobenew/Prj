@@ -168,7 +168,7 @@ require_once './config.php';
           <li>
             <a href="javascript:;">
               <img src="static/uploads/hots_5.jpg" alt="">
-              <span>实在太邪恶！照亮妹纸绝对领域与私处</span>
+              <span>实在太</span>
             </a>
           </li>
         </ul>
