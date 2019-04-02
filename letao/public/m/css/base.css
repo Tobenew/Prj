@@ -1,0 +1,30 @@
+/* 公共样式 */
+* {
+  margin: 0;
+  padding: 0;
+}
+body,html{
+  width: 100%;
+  height: 100%;
+}
+li {
+  list-style-type: none;
+}
+.my-header {
+  background: #006699;
+}
+.my-header h1 {
+  color: #fff;
+}
+.my-header a {
+  color: #ffffff;
+}
+.footer {
+  background: #006699;
+}
+.footer span {
+  color: #fff;
+}
+.mui-content {
+  background: #fff;
+}
