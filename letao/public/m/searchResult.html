@@ -7,8 +7,8 @@
 	<title>Document</title>
 	<link rel="stylesheet" href="./assets/mui/css/mui.min.css">
 	<link rel="stylesheet" href="assets/fontAwesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="./css/base.css">
-	<link rel="stylesheet" href="./css/index.css">
+	<link rel="stylesheet" href="./css/search.css">
+
 </head>
 <body>
 	<header class="mui-bar mui-bar-nav my-header">
@@ -34,22 +34,41 @@
 			<span class="mui-tab-label">会员中心</span>
 		</a>
 	</nav>
-	<div class="mui-content">
-<<<<<<< HEAD
+	<div id="refresh">
 		<div class="container">
-			<div class="searchBox">
-				<input type="text" placeholder="搜索您喜欢的商品">
-				<input type="button" value="搜索">
-			</div>
-			<div class="historyTitle">
-				<span class="mui-pull-left">搜索历史</span>
-				<span class="mui-pull-right mui-icon mui-icon-trash" id="cleanBtn">清空历史</span>
-			</div>
+			<div class="mui-row">
+		        <div class="mui-col-xs-6 search-bar" id="priceSort">
+					价格&nbsp;<span class="fa fa-angle-down"></span>
+		        </div>
+		        <div class="mui-col-xs-6 search-bar" id="numSort">
+					销量&nbsp;<span class="fa fa-angle-down"></span>
+		        </div>
+		    </div>
+
+		    <div class="product" >
+		    	<ul class="list mui-clearfix" id="productBox">
+		    		
+		    	</ul>
+		    </div>
 		</div>
-=======
-		
->>>>>>> parent of 85e1b94... 完成目录分类页面
-	</div>
+    </div>
+    <script id="searchResultTpl" type="text/template">
+		{{each data}}
+			<li>
+				<a href="detail.html?id={{value.id}}">
+					<img src="{{value.pic[0].picAddr}}">
+					<span class="name">
+						{{value.proName}}
+					</span>
+					<p>
+						<span>¥{{value.oldPrice}}</span>
+						<span>¥{{value[i].price}}</span>
+					</p>
+					<button class="buy-now">立即购买</button>
+				</a>
+			</li>
+		{{/each}}
+	</script>
 <script src="./assets/mui/js/mui.min.js"></script>
 
 </body>
