@@ -3,10 +3,6 @@
   margin: 0;
   padding: 0;
 }
-body,
-html {
-  height: 100%;
-}
 li {
   list-style-type: none;
 }
@@ -30,4 +26,23 @@ li {
 }
 .mui-content {
   background: #fff;
+}
+form .getCode {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #006699;
+}
+form .registerBtn {
+  width: 90%;
+  margin: 0 auto;
+  background-color: #006699;
+}
+.login-now {
+  display: block;
+  margin-top: 10px;
+  padding-right: 10px;
+  text-align: right;
+  color: #006699;
 }
