@@ -3,6 +3,10 @@
   margin: 0;
   padding: 0;
 }
+body,
+html {
+  height: 100%;
+}
 li {
   list-style-type: none;
 }
@@ -35,6 +39,11 @@ form .getCode {
   color: #006699;
 }
 form .registerBtn {
+  width: 90%;
+  margin: 0 auto;
+  background-color: #006699;
+}
+form .loginBtn {
   width: 90%;
   margin: 0 auto;
   background-color: #006699;

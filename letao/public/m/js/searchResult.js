@@ -1,6 +1,6 @@
 window.onload=function () {
     $(function(){
-        //ssearch搜索关键词
+        //ssearch搜索关键词 
         var kw = location.search.split("=")[1];
         var page = 1;
         var pageSize =2;
